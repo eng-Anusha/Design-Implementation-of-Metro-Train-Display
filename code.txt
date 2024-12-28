@@ -1,0 +1,80 @@
+from datetime import datetime
+
+# Sample data representing the metro schedule
+metro_schedule = [
+    {"Station": "Station A", "Arrival Time": "08:00", "Departure Time": "08:05", "Route": "Route 1", "Order": 1},
+    {"Station": "Station B", "Arrival Time": "08:15", "Departure Time": "08:20", "Route": "Route 1", "Order": 2},
+    {"Station": "Station C", "Arrival Time": "08:30", "Departure Time": "08:35", "Route": "Route 1", "Order": 3},
+    {"Station": "Station D", "Arrival Time": "08:45", "Departure Time": "08:50", "Route": "Route 2", "Order": 1},
+    {"Station": "Station E", "Arrival Time": "09:00", "Departure Time": "09:05", "Route": "Route 2", "Order": 2},
+    {"Station": "Station F", "Arrival Time": "09:10", "Departure Time": "09:15", "Route": "Route 1", "Order": 4},
+]
+
+# Display schedule for a specific station
+def display_schedule(station_name):
+    found = False
+    station_name = station_name.strip().lower()  # Normalize input
+    print(f"\nSchedule for {station_name.capitalize()}:")
+    for train in metro_schedule:
+        if train["Station"].strip().lower() == station_name:  # Normalize stored station
+            print(
+                f"Arrival: {train['Arrival Time']}, Departure: {train['Departure Time']}, Route: {train['Route']}"
+            )
+            found = True
+    if not found:
+        print("No data found for the specified station.")
+
+# Display route map for a specific route
+def display_route(route_name):
+    route_name = route_name.strip().lower()
+    print(f"\nRoute Map for {route_name.capitalize()}:")
+    found = False
+    for train in metro_schedule:
+        if train["Route"].strip().lower() == route_name:  # Normalize route
+            print(f"Station: {train['Station']}, Order: {train['Order']}, Arrival: {train['Arrival Time']}")
+            found = True
+    if not found:
+        print(f"No data found for the route: {route_name.capitalize()}.")
+
+# Display live updates for upcoming trains
+def live_updates():
+    current_time = datetime.now().strftime("%H:%M")
+    print(f"\nLive Updates as of {current_time}:")
+    found = False
+    for train in metro_schedule:
+        if train["Arrival Time"] > current_time:
+            print(
+                f"Station: {train['Station']}, Arrival: {train['Arrival Time']}, Departure: {train['Departure Time']}, Route: {train['Route']}"
+            )
+            found = True
+    if not found:
+        print("No upcoming trains found.")
+
+# Main program loop
+def main():
+    while True:
+        print("\nMetro Train Display")
+        print("1. View Schedule for a Station")
+        print("2. View Route Map")
+        print("3. Live Updates")
+        print("4. Exit")
+        
+        choice = input("Enter your choice: ").strip()
+        
+        if choice == '1':
+            station_name = input("Enter station name: ").strip()
+            display_schedule(station_name)
+        elif choice == '2':
+            route_name = input("Enter route name: ").strip()
+            display_route(route_name)
+        elif choice == '3':
+            live_updates()
+        elif choice == '4':
+            print("Exiting system.")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+# Run the program
+if __name__ == "__main__":
+    main()
